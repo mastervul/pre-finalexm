@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: #333;
+        position: relative;
+        overflow: hidden; /* Prevents background from overflowing */
+    }
+
+    /* Background overlay */
+    .background-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1s ease-in-out; /* Smooth fade transition */
+        z-index: -1; /* Keeps it behind the content */
+    }
+
+    /* Login Container */
+    #loginContainer {
+        width: 100%;
+        max-width: 400px;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        box-sizing: border-box;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #007bff;
+    }
+
+    /* Form Inputs */
+    .loginInput {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+    }
+
+    .loginInput:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    /* Error Message */
+    .error {
+        color: red;
+        font-size: 14px;
+        text-align: center;
+        margin-top: -10px;
+        margin-bottom: 15px;
+    }
+
+    /* Login Button */
+    .loginButton {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .loginButton:hover {
+        background-color: #0056b3;
+    }
+
+    .loginButton:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+    }
+
+    /* Footer */
+    footer {
+        background-color: rgba(255, 255, 255, 0.8);
+        color: black;
+        text-align: center;
+        padding: 20px 0;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 500px) {
+        #loginContainer {
+            padding: 20px;
+            max-width: 90%;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="background-overlay" id="backgroundOverlay"></div>
+
+<div id="loginContainer">
+    <h2>Login</h2>
+    <div class="error" id="errorMessage"></div>
+    <input type="text" id="username" class="loginInput" placeholder="Username" aria-label="Username" required>
+    <input type="password" id="password" class="loginInput" placeholder="Password" aria-label="Password" required>
+    <button onclick="login()" class="loginButton" id="loginButton">Login</button>
+</div>
+
+<script>
+    // Background Image Slideshow
+    const backgroundImages = [
+        'image/1.jpg',  // Add your own images here
+        'image/2.jpg',
+        'image/3.jpg',
+        'image/4.jpg',
+        'image/5.jpg',
+        'image/6.jpg',
+        'image/7.jpg'
+    ];
+
+    let currentImageIndex = 0;
+
+    // Function to change the background image every 5 seconds with a smooth fade
+    function changeBackground() {
+        const overlay = document.getElementById('backgroundOverlay');
+        
+        // Start fading out the background
+        overlay.style.opacity = 0;
+
+        // After fading out, change the background image and fade it in
+        setTimeout(() => {
+            overlay.style.backgroundImage = `url(${backgroundImages[currentImageIndex]})`;
+            overlay.style.opacity = 1; // Fade in new background image
+        }, 1000); // This matches the fade-out duration of 1 second
+
+        currentImageIndex = (currentImageIndex + 1) % backgroundImages.length;
+    }
+
+    // Change the background every 5 seconds
+    setInterval(changeBackground, 5000);
+    changeBackground();  // Set the initial background image
+
+    // Login functionality
+    function login() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        var errorMessage = document.getElementById('errorMessage');
+
+        // Clear previous error message
+        errorMessage.textContent = '';
+
+        // Simulate a login process
+        if (username === "user" && password === "pass") {
+            window.location.href = "home.htm";
+        } else {
+            errorMessage.textContent = "Invalid username or password. Please try again.";
+        }
+    }
+
+    // Optionally, disable button if fields are empty
+    document.getElementById('username').addEventListener('input', toggleLoginButton);
+    document.getElementById('password').addEventListener('input', toggleLoginButton);
+
+    function toggleLoginButton() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        const button = document.getElementById('loginButton');
+        button.disabled = !(username && password);
+    }
+</script>
+
+</body>
+</html>
+
